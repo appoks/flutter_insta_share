@@ -86,6 +86,8 @@ public class InstasharePlugin implements FlutterPlugin, MethodCallHandler {
         }
     }
 
+
+    // TODO:   MODIFICAR PARA MÚLTIPLOS ARQUIVOS
     private void instagramShare(String type, String imagePath) {
         final File image = new File(imagePath);
         final Uri uri = Uri.fromFile(image);
@@ -95,6 +97,28 @@ public class InstasharePlugin implements FlutterPlugin, MethodCallHandler {
         share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         share.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(share);
+    }
+
+    // TODO:   MODIFICAR PARA MÚLTIPLOS ARQUIVOS  => SAMPLE CODE
+    private void instagramMultiShare(String type, ArrayList<String> imagesPath) {
+        val share = Intent(Intent.ACTION_SEND_MULTIPLE)
+        val uriList: ArrayList<Uri> = ArrayList<Uri>()
+
+        for (path in imagesPath) {
+            val mediaFile = File(path);
+            val uri = FileProvider.getUriForFile(requireContext(), requireContext().getApplicationContext().getPackageName() + ".provider", mediaFile);
+            uriList.add(uri);
+        }
+
+        share.setType(type);
+        share.setPackage(INSTAGRAM_PACKAGE_NAME);
+        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        share.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
+
+        //startActivity(Intent.createChooser(share, "Share to"))
         context.startActivity(share);
     }
 }

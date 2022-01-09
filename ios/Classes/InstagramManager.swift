@@ -26,7 +26,8 @@ class InstagramManager: NSObject, UIDocumentInteractionControllerDelegate {
     init(result: @escaping FlutterResult) {
         self.result = result
     }
-    
+
+    //    TODO::   MODIFICAR PARA ENVIO DE MÚLTIPLAS IMAGENS
     public func postImageToInstagram(imageInstagram: UIImage, result: @escaping FlutterResult) {
         // called to post image with caption to the instagram application
         self.result = result
